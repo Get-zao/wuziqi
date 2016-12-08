@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		  	<!-- Add to homescreen for Safari on Ios -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="五子棋">
+		<link rel="apple-touch-icon" href="img/icon.png">
+		
+		  <!-- Add to homescreen for Chrome on Android -->
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="application-name" content="五子棋">
+		<meta name="theme-color" content="transparent">
+		<link rel="icon" sizes="192x192" href="icon.png">
+		<title>五子棋</title>
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="wuziqi.js"></script>
+	</head>
+	<style type="text/css">
+	ul,li{
+		list-style: none;
+	}
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	body{
+		background:url(bg.png);
+		font-family: '方正启体繁体';
+	}
+	.bt{
+		width:423px;
+		height: 65px;
+		background:url(bt.png) no-repeat;
+		margin: 0 auto;
+	}
+	.box{
+		width:800px;
+		height: 600px;
+		position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			position: relative;
+	}
+		#canvas{
+			border: 1px solid #333;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			background:url(bj.jpg);
+			cursor: pointer;
+		}
+		#biao{
+			position: absolute;
+			top: 100px;
+			left:-20px ;
+			background:url(biao.png) no-repeat;
+			cursor: pointer;
+		}
+		#biao-y{
+			position: absolute;
+			bottom:50px;
+			left:-20px ;
+			background:url(biao.png) no-repeat;
+			cursor: pointer;
+		}
+		#bai{
+			display: block;
+			width:100px;
+			height: 50px;
+			font-family: '方正启体繁体';
+			font-size: 30px;
+			line-height: 50px;
+			text-align: center;
+			position: absolute;
+			bottom: 110px;
+			left:-20px ;
+		}
+		#hei{
+			display: block;
+			width:100px;
+			height: 50px;
+			font-family: '方正启体繁体';
+			font-size: 30px;
+			line-height: 50px;
+			text-align: center;
+			position: absolute;
+			top: 190px;
+			left:-20px ;
+		}
+		.heisheng{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.5);
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			transition: all 1s;
+			transform: scale(0);
+			z-index: 5555;
+		}
+		.hei-gg{
+			transform: scale(1);
+		}
+		.heisheng .over{
+			width: 438px;
+			height: 341px;
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+	
+		}
+		
+		.heisheng .over .jixu{
+			display: block;
+			width: 85px;
+			height: 35px;
+			position: absolute;
+			bottom: 85px;
+			left: 95px;
+			cursor: pointer;
+		}
+		.heisheng .over .likai{
+			display: block;
+			width: 85px;
+			height: 35px;
+			position: absolute;
+			bottom: 85px;
+			right: 77px;
+			cursor: pointer;
+		}
+		.baisheng{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.5);
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			transition: all 1s;
+			transform: scale(0);
+			z-index: 5555;
+		}
+		.bai-gg{
+			transform: scale(1);
+		}
+		.baisheng .over{
+			width: 438px;
+			height: 341px;
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+		}
+		.baisheng .over .jixu{
+			display: block;
+			width: 85px;
+			height: 35px;
+			position: absolute;
+			bottom: 85px;
+			left: 95px;
+			cursor: pointer;
+		}
+		.baisheng .over .likai{
+			display: block;
+			width: 85px;
+			height: 35px;
+			position: absolute;
+			bottom: 85px;
+			right: 77px;
+			cursor: pointer;
+		}
+		.kaishi{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.9);
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			transition: all 1s;
+			z-index: 55555;
+		}
+		.kai-k{
+			transform: scale(0) rotate(720deg);
+			opacity: 0;
+		}
+		.kaishi .begin{
+			width: 921px;
+			height: 638px;
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+		}
+		.kaishi .begin .kai{
+			position: absolute;
+			top: 42%;
+			left: 42%;
+		}
+		.kaishi .begin .kai li{
+			height: 40px;
+			padding-left: 40px;
+			padding-right: 40px;
+			font-size: 20px;
+			line-height: 40px;
+			border-radius: 18px;
+			margin-bottom: 10px;
+			border: 1px solid #c27426;
+			font-weight: bold;
+			color: #fff;
+			background: url(1.png);
+			cursor: pointer;
+			text-align: center;
+		}
+		
+		.kaishi .begin .moshi{
+			position: absolute;
+			top: 42%;
+			left: 62%;
+			transform: translateX(200%);opacity: 0;
+			transition: all 1s;
+		}
+		.kaishi .begin .xuanze{
+			transform: translateX(0);opacity: 1;
+		}
+		.kaishi .begin .moshi li{
+			height: 20px;
+			padding-left: 20px;
+			padding-right: 20px;
+			font-size: 10px;
+			line-height: 20px;
+			border-radius: 9px;
+			margin-bottom: 5px;
+			border: 1px solid #c27426;
+			font-weight: bold;
+			color: #fff;
+			background: url(1.png);
+			cursor: pointer;
+			text-align: center;
+		}
+		.kaishi .begin li:hover{
+			color: red;
+		}
+		.root{
+			position: absolute;
+			bottom: 2%;
+			right:-100px ;
+		}
+		.root li{
+				height: 40px;
+				padding-left: 40px;
+				padding-right: 40px;
+				font-size: 20px;
+				line-height: 40px;
+				border-radius: 18px;
+				margin-bottom: 10px;
+				border: 1px solid #c27426;
+				font-weight: bold;
+				color: #fff;
+				background: url(1.png);
+				cursor: pointer;
+				text-align: center;
+		}
+		.root li:hover{
+			color: red;
+		}
+		.look{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.8);
+			position:absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			transition: all 1s;
+			z-index: 555;
+			transform: scale(0);
+		}
+		.kan{
+			transform: scale(1);
+		}
+		.look .box{
+			width:500px;
+			height:500px;		
+			background: #fff;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+		}
+		.look .box img{
+			width: 100%;
+			height: 100%;
+		}
+		.look .box a{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+		}
+		.look .box .close{
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background: #FFFFFF;
+			position:absolute;
+			right: -15px;
+			top: -15px;
+			z-index: 10000;
+			line-height: 30px;
+			text-align: center;
+			font-size: 25px;
+			cursor: pointer;
+		}
+		.guize{
+			width: 456px;
+			height: 265px;
+			position: absolute;
+			top:250px;
+			
+			left: 0;
+			right: 0;
+			margin: auto;
+			z-index: 44444444;
+			transform: scale(0);
+			transition: transform 0.3s;
+		}
+		.guize-x{
+			transform: scale(1.2);
+		}
+	</style>
+	<body>
+		<!--<audio src="bj.mp3"  loop="loop" autoplay="autoplay" hidden="hidden"></audio>-->
+		<audio id='yinxiao' src="luozi.mp3"  hidden="hidden"></audio>
+		<div class="bt">
+			
+		</div>
+		<div class="box">
+			<canvas id="canvas" width="600" height="600">
+			</canvas>
+			<canvas id="biao" width="100" height="200">
+			</canvas>
+			<canvas id="biao-y" width="100" height="200">
+			</canvas>
+			<span id="bai">白子</span>
+			<span id="hei">黑子</span>
+			<img id="baiqi" src="baiqi.jpg"/ hidden="hidden">
+			<img id="heiqi" src="heiqi.jpg"/ hidden="hidden">
+			<ul class="root">
+				<li>议和</li>
+				<li id="renshu">认输</li>
+				<li class="chess">查看棋谱</li>
+				<li class="cxks">重新开始</li>
+				<li class="likai">退出</li>
+			</ul>
+		</div>
+		
+		<div class="heisheng">
+			<div class="over">
+					<img class="" src="heisheng.png"/>
+					<span class="jixu" ></span>
+					<span class="likai"></a>
+			</div>
+		
+		</div>
+		<div class="baisheng">
+			<div class="over">
+				<img src="baisheng.png"/>
+				<span class="jixu" ></span>
+				<span class="likai"></a>
+			</div>
+		</div>
+		<div class="look">
+			<div class="box">
+				<div class="close">X</div>
+			</div>
+		</div>
+		
+		<div class="kaishi">
+			<div class="begin">
+				<img src="kaishi.png"/>
+				<ul class="kai">
+					<li id="begin">开始游戏</li>
+					<li id="bang">帮助</li>
+					<li>设置</li>
+					<li>退出游戏</li>
+				</ul>
+				<ul class="moshi">
+					<li class="rvr">人人对战</li>
+					<li class="rvj">人机对战</li>
+				</ul>
+			</div>
+		</div>
+		<div class="guize">
+			<img src="guize1.png"/>
+		</div>
+	</body>
+	
+</html>
